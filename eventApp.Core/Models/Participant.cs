@@ -12,10 +12,8 @@ namespace EventApp.Core.Models
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
-        public DateTime RegistrationDate {  get; set; }
         public string Email { get; set; } = string.Empty;
-        public Guid EventId { get; set; }
 
-        public Event Event { get; set; } = new Event();
+        public List<Event> Events { get; set; } = [];
     }
 }

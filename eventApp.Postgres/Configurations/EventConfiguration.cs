@@ -12,7 +12,7 @@ namespace eventApp.Postgres.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.HasMany(e => e.Participants)
-                .WithOne(p => p.Event);
+                .WithMany(p => p.Events);
         }
     }
 
@@ -21,9 +21,8 @@ namespace eventApp.Postgres.Configurations
         public void Configure(EntityTypeBuilder<Participant> builder)
         {
             builder.HasKey(e => e.Id);
-            builder.HasOne(p => p.Event)
-                .WithMany(e => e.Participants)
-                .HasForeignKey(p => p.EventId);
+            builder.HasMany(p => p.Events)
+                .WithMany(e => e.Participants);
         }
     }
 }

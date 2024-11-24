@@ -25,10 +25,15 @@ namespace EventApp.Core.Models
 
             if (string.IsNullOrEmpty(Name) || Name.Length > MAX_NAME_LENGTH) {
                 error = "Name can not be empty or longer than 100 symbols";
-            }
-            if (string.IsNullOrEmpty(Description) || Description.Length > MAX_DESCRIPTION_LENGTH)
+            } else if (string.IsNullOrEmpty(Description) || Description.Length > MAX_DESCRIPTION_LENGTH)
             {
-                error = "Description can not be empty or longer than 100 symbols";
+                error = "Description can not be empty or longer than 250 symbols";
+            } else if (string.IsNullOrEmpty(Location) || Location.Length > MAX_LOCATION_LENGTH)
+            {
+                error = "Location can not be empty or longer than 250 symbols";
+            } else if (string.IsNullOrEmpty(Category) || Category.Length > MAX_CATEGORY_LENGTH)
+            {
+                error = "Category can not be empty or longer than 100 symbols";
             }
 
             Event Event = new Event(Id, Name, Description, DateTime, Location, Category, MaxParticipants, Image);

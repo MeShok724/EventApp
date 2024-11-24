@@ -11,13 +11,13 @@ namespace EventApp.Core.Models
     {
         private const int NAME_NAX_LENGTH = 100;
         private const int EMAIL_NAX_LENGTH = 100;
-        public Guid Id { get; set; }
-        public string FirstName { get; set; } = string.Empty;
-        public string LastName { get; set; } = string.Empty;
-        public DateTime DateOfBirth { get; set; }
-        public string Email { get; set; } = string.Empty;
+        public Guid Id { get; }
+        public string FirstName { get; } = string.Empty;
+        public string LastName { get; } = string.Empty;
+        public DateTime DateOfBirth { get; }
+        public string Email { get; } = string.Empty;
 
-        public List<Event> Events { get; set; } = [];
+        public List<Event> Events { get; } = [];
 
         private Participant(Guid id, string firstName, string lastName, DateTime dateOfBirth, string email) {
             Id = id;

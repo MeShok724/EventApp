@@ -7,14 +7,14 @@ namespace EventApp.Core.Models
         public const int MAX_DESCRIPTION_LENGTH = 250;
         public const int MAX_LOCATION_LENGTH = 250;
         public const int MAX_CATEGORY_LENGTH = 100;
-        public Guid Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public DateTime DateTime { get; set; }
-        public string Location { get; set; } = string.Empty;
-        public string Category { get; set; } = string.Empty;
-        public int MaxParticipants { get; set; }
-        public byte[] Image { get; set; } = [];
+        public Guid Id { get; }
+        public string Name { get; } = string.Empty;
+        public string Description { get; } = string.Empty;
+        public DateTime DateTime { get; }
+        public string Location { get; } = string.Empty;
+        public string Category { get;} = string.Empty;
+        public int MaxParticipants { get; }
+        public byte[] Image { get; } = [];
 
         public List<Participant> Participants { get; set; } = [];
 

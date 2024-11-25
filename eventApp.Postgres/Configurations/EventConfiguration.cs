@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace eventApp.Postgres.Configurations
 {
-    public class EventConfiguration : IEntityTypeConfiguration<EventEntity>
+    public class EventConfiguration : IEntityTypeConfiguration<EventRepository>
     {
-        public void Configure(EntityTypeBuilder<EventEntity> builder)
+        public void Configure(EntityTypeBuilder<EventRepository> builder)
         {
             builder.HasKey(e => e.Id);
             builder.HasMany(e => e.Participants)
@@ -16,9 +16,9 @@ namespace eventApp.Postgres.Configurations
         }
     }
 
-    public class ParticipantConfiguration : IEntityTypeConfiguration<ParticipantEntity>
+    public class ParticipantConfiguration : IEntityTypeConfiguration<ParticipantRepository>
     {
-        public void Configure(EntityTypeBuilder<ParticipantEntity> builder)
+        public void Configure(EntityTypeBuilder<ParticipantRepository> builder)
         {
             builder.HasKey(e => e.Id);
             builder.HasMany(p => p.Events)

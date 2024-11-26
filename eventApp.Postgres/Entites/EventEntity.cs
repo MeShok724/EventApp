@@ -1,7 +1,7 @@
 ﻿
 namespace EventApp.Core.Models
 {
-    public class EventRepository
+    public class EventEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;

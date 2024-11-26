@@ -5,7 +5,7 @@ namespace EventApp.Postgres
 {
     public class EventAppDbContext(DbContextOptions<EventAppDbContext> options) : DbContext(options)
     {
-        public DbSet<EventRepository> Events { get; set; }
+        public DbSet<EventEntity> Events { get; set; }
         public DbSet<ParticipantRepository> Participants { get; set; }
     }
 }

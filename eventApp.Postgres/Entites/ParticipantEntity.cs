@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EventApp.Core.Models
 {
-    public class ParticipantRepository
+    public class ParticipantEntity
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; } = string.Empty;

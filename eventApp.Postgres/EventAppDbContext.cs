@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using EventApp.Core.Models;
-using eventApp.Postgres.Entites;
 
 namespace EventApp.Postgres
 {
@@ -8,6 +7,5 @@ namespace EventApp.Postgres
     {
         public DbSet<EventEntity> Events { get; set; }
         public DbSet<ParticipantEntity> Participants { get; set; }
-        public DbSet<ParticipantEventEntity> ParticipantEvents { get; set; }
     }
 }

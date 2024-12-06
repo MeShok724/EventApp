@@ -50,9 +50,16 @@ namespace eventApp.Postgres.Repositories
         }
         public async Task<Guid> DeleteEvent(Guid participantId, Guid eventId)
         {
-            await _context.ParticipantEvents
-                .Where(pE => pE.EventId == eventId && pE.ParticipantId == participantId)
-                .ExecuteDeleteAsync();
+            var participant = await _context.Participants
+                .Include(p => p.Events)
+                .FirstOrDefaultAsync(p => p.Id == participantId);
+            if (participant == null)
+                return Guid.Empty;
+            var @event = participant.Events.FirstOrDefault(e => e.Id == eventId);
+            if (@event == null)
+                return Guid.Empty;
+            participant.Events.Remove(@event);
+            await _context.SaveChangesAsync();
             return participantId;
         }
     }

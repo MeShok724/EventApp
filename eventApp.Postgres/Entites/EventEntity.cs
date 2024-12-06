@@ -11,5 +11,7 @@ namespace EventApp.Core.Models
         public string Category { get; set; } = string.Empty;
         public int MaxParticipants { get; set; }
         public byte[] Image { get; set; } = [];
+
+        public List<ParticipantEntity> Participants { get; set; }
     }
 }

@@ -12,13 +12,17 @@ namespace eventApp.Postgres.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.HasMany(e => e.Participants)
-                .WithMany(p => p.Events);
+                .WithMany(p => p.Events)
+                .UsingEntity<Dictionary<string, object>>(
+                    "ParticipantEvent",
+                    j => j.HasOne<ParticipantEntity>().WithMany().HasForeignKey("ParticipantId"),
+                    j => j.HasOne<EventEntity>().WithMany().HasForeignKey("EventId"));
         }
     }
 
-    public class ParticipantConfiguration : IEntityTypeConfiguration<ParticipantRepository>
+    public class ParticipantConfiguration : IEntityTypeConfiguration<ParticipantEntity>
     {
-        public void Configure(EntityTypeBuilder<ParticipantRepository> builder)
+        public void Configure(EntityTypeBuilder<ParticipantEntity> builder)
         {
             builder.HasKey(e => e.Id);
             builder.HasMany(p => p.Events)

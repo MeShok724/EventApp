@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace eventApp.Postgres.Repositories
 {
-    public class EventRepository(EventAppDbContext context)
+    public class EventRepository(EventAppDbContext context) : IEventRepository
     {
         private readonly EventAppDbContext _context = context;
 
@@ -13,7 +13,7 @@ namespace eventApp.Postgres.Repositories
             var dbResp = await _context.Events
                 .AsNoTracking()
                 .ToListAsync();
-            List<Event> list = dbResp.Select(e => Event.Create(e.Id, e.Name, e.Description, 
+            List<Event> list = dbResp.Select(e => Event.Create(e.Id, e.Name, e.Description,
                 e.DateTime, e.Location, e.Category, e.MaxParticipants, e.Image).Item1)
                 .ToList();
             return list;

@@ -1,3 +1,5 @@
+using eventApp.Application.Services;
+using eventApp.Postgres.Repositories;
 using EventApp.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
@@ -15,6 +17,11 @@ builder.Services.AddDbContext<EventAppDbContext>(
         {
             options.UseNpgsql(configuration.GetConnectionString("FishingCatalogDbContext"));
         });
+builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IParticipantService, ParticipantService>();
+builder.Services.AddScoped<IEventRepository, EventRepository>();
+builder.Services.AddScoped<IParticipantRepository, ParticipantRepository>();
+
 
 var app = builder.Build();
 

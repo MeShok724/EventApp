@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\eventApp.Application\eventApp.Application.csproj" />
     <ProjectReference Include="..\eventApp.Postgres\eventApp.Postgres.csproj" />
   </ItemGroup>
 

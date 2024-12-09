@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace eventApp.Postgres.Repositories
 {
-    public class ParticipantRepository(EventAppDbContext context)
+    public class ParticipantRepository(EventAppDbContext context) : IParticipantRepository
     {
         private readonly EventAppDbContext _context = context;
         public async Task<List<Participant>> GetAll()

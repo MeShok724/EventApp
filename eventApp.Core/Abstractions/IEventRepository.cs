@@ -7,7 +7,7 @@ namespace eventApp.Postgres.Repositories
         Task<Guid> Add(Event @event);
         Task<Guid> Delete(Guid id);
         Task<List<Event>> Get();
-        Task<Event?> GetByCategory(string category);
+        Task<List<Event>> GetByCategory(string category);
         Task<Event?> GetByDate(DateTime date);
         Task<Event?> GetById(Guid id);
         Task<Event?> GetByLocation(string location);

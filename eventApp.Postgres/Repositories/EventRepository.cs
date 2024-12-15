@@ -62,16 +62,18 @@ namespace eventApp.Postgres.Repositories
                 dbResp.DateTime, dbResp.Location, dbResp.Category, dbResp.MaxParticipants, dbResp.Image);
             return resp.Item1;
         }
-        public async Task<Event?> GetByCategory(string category)
+        public async Task<List<Event>> GetByCategory(string category)
         {
             var dbResp = await _context.Events
                 .AsNoTracking()
-                .FirstOrDefaultAsync(e => e.Category == category);
+                .Where(e => e.Category == category)
+                .ToListAsync();
             if (dbResp == null)
                 return null;
-            var resp = Event.Create(dbResp.Id, dbResp.Name, dbResp.Description,
-                dbResp.DateTime, dbResp.Location, dbResp.Category, dbResp.MaxParticipants, dbResp.Image);
-            return resp.Item1;
+            var resp = dbResp.Select(e => Event.Create(e.Id, e.Name, e.Description,
+                e.DateTime, e.Location, e.Category, e.MaxParticipants, e.Image).Item1)
+                .ToList();
+            return resp;
         }
         public async Task<Guid> Add(Event @event)
         {

@@ -32,9 +32,9 @@ namespace eventApp.Application.Services
         {
             return await _eventRepository.GetByLocation(location);
         }
-        public async Task<Event?> GetEventByCategory(string category)
+        public async Task<List<Event>> GetEventByCategory(string category)
         {
-            return await GetEventByCategory(category);
+            return await _eventRepository.GetByCategory(category);
         }
         public async Task<Guid> AddEvent(Event @event)
         {
@@ -42,7 +42,7 @@ namespace eventApp.Application.Services
         }
         public async Task<Guid> UpdateEvent(Event @event)
         {
-            return await UpdateEvent(@event);
+            return await _eventRepository.Update(@event);
         }
         public async Task<Guid> DeleteEvent(Guid id)
         {

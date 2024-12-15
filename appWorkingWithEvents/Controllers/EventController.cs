@@ -89,7 +89,7 @@ namespace eventApp.API.Controllers
             var createRes = Event.Create(Guid.NewGuid(), eventRequest.Name, eventRequest.Description,
                 eventRequest.DateTime, eventRequest.Location, eventRequest.Category, eventRequest.MaxParticipants, eventRequest.Image);
             if (string.IsNullOrEmpty(createRes.Item2)) {
-                return BadRequest("Failed to create an event");    
+                return BadRequest(createRes.Item2);    
             }
             Event @event = createRes.Item1;
             Guid addToDbRes = await _eventService.AddEvent(@event);
@@ -106,7 +106,7 @@ namespace eventApp.API.Controllers
                 eventRequest.DateTime, eventRequest.Location, eventRequest.Category, eventRequest.MaxParticipants, eventRequest.Image);
             if (string.IsNullOrEmpty(createRes.Item2))
             {
-                return BadRequest("Failed to create an event");
+                return BadRequest(createRes.Item2);
             }
             Event @event = createRes.Item1;
             Guid res = await _eventService.UpdateEvent(@event);

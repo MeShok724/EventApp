@@ -69,7 +69,7 @@ namespace eventApp.Postgres.Repositories
                 .Where(e => e.Category == category)
                 .ToListAsync();
             if (dbResp == null)
-                return null;
+                return [];
             var resp = dbResp.Select(e => Event.Create(e.Id, e.Name, e.Description,
                 e.DateTime, e.Location, e.Category, e.MaxParticipants, e.Image).Item1)
                 .ToList();

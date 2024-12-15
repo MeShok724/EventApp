@@ -15,6 +15,6 @@ namespace EventApp.Core.Models
         public DateTime DateOfBirth { get; set; }
         public string Email { get; set; } = string.Empty;
 
-        public List<EventEntity> Events { get; set; }
+        public List<EventEntity> Events { get; set; } = [];
     }
 }

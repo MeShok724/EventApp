@@ -15,7 +15,7 @@ namespace eventApp.API.Controllers
         private readonly IEventService _eventService = eventService;
 
         [HttpGet]
-        public async Task<ActionResult<List<EventResponse>>> Get()
+        public async Task<ActionResult<List<EventResponse>>> GetAll()
         {
             var events = await _eventService.GetAllEvents();
             var resp = events.Select(e => new EventResponse(e.Id, e.Name, e.Description, e.DateTime, e.Location, e.Category, e.MaxParticipants, e.Image))
@@ -23,10 +23,10 @@ namespace eventApp.API.Controllers
             return Ok(resp);
         }
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<EventResponse?>> GetEventById(Guid id)
+        public async Task<ActionResult<EventResponse?>> GetById(Guid id)
         {
             var @event = await _eventService.GetEventById(id);
-            if (@event != null)
+            if (@event == null)
             {
                 return NotFound();
             }
@@ -35,10 +35,10 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("{name}")]
-        public async Task<ActionResult<Event?>> GetEventByName(string name)
+        public async Task<ActionResult<Event?>> GetByName(string name)
         {
             var @event = await _eventService.GetEventByName(name);
-            if (@event != null)
+            if (@event == null)
             {
                 return NotFound();
             }
@@ -47,10 +47,10 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("{date:datetime}")]
-        public async Task<ActionResult<Event?>> GetEventByDate(DateTime date)
+        public async Task<ActionResult<Event?>> GetByDate(DateTime date)
         {
             var @event = await _eventService.GetEventByDate(date);
-            if (@event != null)
+            if (@event == null)
             {
                 return NotFound();
             }
@@ -59,10 +59,10 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("location/{location}")]
-        public async Task<ActionResult<Event?>> GetEventByLocation(string location)
+        public async Task<ActionResult<Event?>> GetByLocation(string location)
         {
             var @event = await _eventService.GetEventByLocation(location);
-            if (@event != null)
+            if (@event == null)
             {
                 return NotFound();
             }
@@ -71,10 +71,10 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("category/{category}")]
-        public async Task<ActionResult<List<Event>>> GetEventByCategory(string category)
+        public async Task<ActionResult<List<Event>>> GetByCategory(string category)
         {
             var @events = await _eventService.GetEventByCategory(category);
-            if (@events != null)
+            if (@events == null)
             {
                 return NotFound();
             }
@@ -83,17 +83,39 @@ namespace eventApp.API.Controllers
                 .ToList();
             return Ok(resp);
         }
-        public async Task<Guid> AddEvent(Event @event)
+        [HttpPost]
+        public async Task<ActionResult<Guid>> Add([FromBody] EventRequest eventRequest)
         {
-            return await _eventRepository.Add(@event);
+            var createRes = Event.Create(Guid.NewGuid(), eventRequest.Name, eventRequest.Description,
+                eventRequest.DateTime, eventRequest.Location, eventRequest.Category, eventRequest.MaxParticipants, eventRequest.Image);
+            if (string.IsNullOrEmpty(createRes.Item2)) {
+                return BadRequest("Failed to create an event");    
+            }
+            Event @event = createRes.Item1;
+            Guid addToDbRes = await _eventService.AddEvent(@event);
+            if (addToDbRes == Guid.Empty)
+            {
+                return BadRequest("Failed to add event to database");
+            }
+            return Ok(addToDbRes);
         }
-        public async Task<Guid> UpdateEvent(Event @event)
+        [HttpPut("{id:Guid}")]
+        public async Task<ActionResult<Guid>> Update(Guid id, [FromBody] EventRequest eventRequest)
         {
-            return await UpdateEvent(@event);
+            var createRes = Event.Create(id, eventRequest.Name, eventRequest.Description,
+                eventRequest.DateTime, eventRequest.Location, eventRequest.Category, eventRequest.MaxParticipants, eventRequest.Image);
+            if (string.IsNullOrEmpty(createRes.Item2))
+            {
+                return BadRequest("Failed to create an event");
+            }
+            Event @event = createRes.Item1;
+            Guid res = await _eventService.UpdateEvent(@event);
+            return Ok(res);
         }
-        public async Task<Guid> DeleteEvent(Guid id)
+        [HttpDelete("{id:Guid}")]
+        public async Task<ActionResult<Guid>> Delete(Guid id)
         {
-            return await _eventRepository.Delete(id);
+            return await _eventService.DeleteEvent(id);
         }
     }
 }

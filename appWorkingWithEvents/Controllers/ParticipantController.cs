@@ -20,12 +20,12 @@ namespace eventApp.API.Controllers
         {
             return await _participantService.GetParticipantById(id);
         }
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid?>> Add(Guid id, [FromBody] ParticipantRequest participantRequest)
+        [HttpPost]
+        public async Task<ActionResult<Guid?>> Add([FromBody] ParticipantRequest participantRequest)
         {
-            var createResult = Participant.Create(id, participantRequest.FirstName, participantRequest.LastName,
+            var createResult = Participant.Create(Guid.NewGuid(), participantRequest.FirstName, participantRequest.LastName,
                 participantRequest.DateOfBirth, participantRequest.Email);
-            if (string.IsNullOrEmpty(createResult.Item2))
+            if (!string.IsNullOrEmpty(createResult.Item2))
             {
                 return BadRequest(createResult.Item2);
             }
@@ -37,6 +37,18 @@ namespace eventApp.API.Controllers
             }
             return Ok(dbResp);
         }
+
+        [HttpPost("{eventId:guid}/{participantId:guid}")]
+        public async Task<ActionResult<string>> AddParticipantEvent(Guid participantId, Guid eventId)
+        {
+            var resp = await _participantService.AddParticipantEvent(participantId, eventId);
+            if (!string.IsNullOrEmpty(resp))
+            {
+                return BadRequest(resp);
+            }
+            return Ok();
+        }
+
         [HttpDelete("{eventId:guid}/{participantId:guid}")]
         public async Task<ActionResult<Guid>> DeleteParticipantEvent(Guid participantId, Guid eventId)
         {

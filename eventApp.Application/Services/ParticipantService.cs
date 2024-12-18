@@ -24,6 +24,10 @@ namespace eventApp.Application.Services
         {
             return await _participantRepository.Add(participant);
         }
+        public async Task<string> AddParticipantEvent(Guid participantId, Guid eventId)
+        {
+            return await _participantRepository.AddEvent(participantId, eventId);
+        }
         public async Task<Guid> DeleteParticipantEvent(Guid participantId, Guid eventId)
         {
             return await _participantRepository.DeleteEvent(participantId, eventId);

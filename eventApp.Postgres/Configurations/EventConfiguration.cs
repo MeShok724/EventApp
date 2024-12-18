@@ -19,14 +19,4 @@ namespace eventApp.Postgres.Configurations
                     j => j.HasOne<EventEntity>().WithMany().HasForeignKey("EventId"));
         }
     }
-
-    public class ParticipantConfiguration : IEntityTypeConfiguration<ParticipantEntity>
-    {
-        public void Configure(EntityTypeBuilder<ParticipantEntity> builder)
-        {
-            builder.HasKey(e => e.Id);
-            builder.HasMany(p => p.Events)
-                .WithMany(e => e.Participants);
-        }
-    }
 }

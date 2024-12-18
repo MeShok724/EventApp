@@ -89,6 +89,7 @@ namespace eventApp.Postgres.Repositories
 
             await _context.Events
                 .AddAsync(dbReq);
+            _context.SaveChanges();
             return @event.Id;
         }
         public async Task<Guid> Update(Event @event)

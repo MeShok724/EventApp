@@ -48,6 +48,22 @@ namespace eventApp.Postgres.Repositories
             await _context.SaveChangesAsync();
             return participantEntity.Id;
         }
+
+        public async Task<string> AddEvent(Guid participantId, Guid eventId)
+        {
+            var participant = await _context.Participants
+                .Include(p => p.Events)
+                .FirstOrDefaultAsync(p => p.Id == participantId);
+            if (participant == null)
+                return "User not found";
+            var @event = _context.Events.FirstOrDefault(e => e.Id == eventId);
+            if (@event == null)
+                return "Event not found";
+            participant.Events.Add(@event);
+            await _context.SaveChangesAsync();
+            return string.Empty;
+        }
+
         public async Task<Guid> DeleteEvent(Guid participantId, Guid eventId)
         {
             var participant = await _context.Participants

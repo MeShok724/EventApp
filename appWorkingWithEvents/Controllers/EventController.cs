@@ -88,7 +88,7 @@ namespace eventApp.API.Controllers
         {
             var createRes = Event.Create(Guid.NewGuid(), eventRequest.Name, eventRequest.Description,
                 eventRequest.DateTime, eventRequest.Location, eventRequest.Category, eventRequest.MaxParticipants, eventRequest.Image);
-            if (string.IsNullOrEmpty(createRes.Item2)) {
+            if (!string.IsNullOrEmpty(createRes.Item2)) {
                 return BadRequest(createRes.Item2);    
             }
             Event @event = createRes.Item1;
@@ -104,7 +104,7 @@ namespace eventApp.API.Controllers
         {
             var createRes = Event.Create(id, eventRequest.Name, eventRequest.Description,
                 eventRequest.DateTime, eventRequest.Location, eventRequest.Category, eventRequest.MaxParticipants, eventRequest.Image);
-            if (string.IsNullOrEmpty(createRes.Item2))
+            if (!string.IsNullOrEmpty(createRes.Item2))
             {
                 return BadRequest(createRes.Item2);
             }

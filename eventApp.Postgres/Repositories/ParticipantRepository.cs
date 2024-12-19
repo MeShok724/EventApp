@@ -78,5 +78,18 @@ namespace eventApp.Postgres.Repositories
             await _context.SaveChangesAsync();
             return participantId;
         }
+        public async Task<List<Participant>> GetParticipantsOfEvent(Guid eventId)
+        {
+            var @event = await _context.Events
+                .Include(e => e.Participants)
+                .FirstOrDefaultAsync(e => e.Id == eventId);
+            if (@event == null)
+                return [];
+            var participantsEntity = @event.Participants.ToList();
+            List<Participant> participants = participantsEntity
+                .Select(pE => Participant.Create(pE.Id, pE.FirstName, pE.LastName, pE.DateOfBirth, pE.Email).Item1)
+                .ToList();
+            return participants;
+        }
     }
 }

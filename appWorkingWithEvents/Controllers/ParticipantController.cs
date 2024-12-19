@@ -11,14 +11,32 @@ namespace eventApp.API.Controllers
     {
         private readonly IParticipantService _participantService = participantService;
         [HttpGet]
-        public async Task<ActionResult<List<Participant>>> GetAll()
+        public async Task<ActionResult<List<ParticipantResponse>>> GetAll()
         {
-            return await _participantService.GetAllParticipants();
+            var respFromDb = await _participantService.GetAllParticipants();
+            List<ParticipantResponse> respToClient = respFromDb
+                .Select(p => new ParticipantResponse(p.Id, p.FirstName, p.LastName, p.DateOfBirth, p.Email))
+                .ToList();
+            return Ok(respToClient);
         }
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<Participant?>> GetById(Guid id)
+        public async Task<ActionResult<ParticipantResponse?>> GetById(Guid id)
         {
-            return await _participantService.GetParticipantById(id);
+            var respFromDb = await _participantService.GetParticipantById(id);
+            if (respFromDb == null)
+                return NotFound();
+            ParticipantResponse respToClient = new ParticipantResponse(respFromDb.Id,
+                respFromDb.FirstName, respFromDb.LastName, respFromDb.DateOfBirth, respFromDb.Email);
+            return Ok(respToClient);
+        }
+        [HttpGet("/byEvent/{eventId:guid}")]
+        public async Task<ActionResult<ParticipantResponse>> GetOfEvent(Guid eventId)
+        {
+            var respFromDb = await _participantService.GetParticipantsOfEvent(eventId);
+            List<ParticipantResponse> respToClient = respFromDb
+                .Select(p => new ParticipantResponse(p.Id, p.FirstName, p.LastName, p.DateOfBirth, p.Email))
+                .ToList();
+            return Ok(respToClient);
         }
         [HttpPost]
         public async Task<ActionResult<Guid?>> Add([FromBody] ParticipantRequest participantRequest)

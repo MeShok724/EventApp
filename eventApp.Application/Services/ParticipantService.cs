@@ -32,5 +32,9 @@ namespace eventApp.Application.Services
         {
             return await _participantRepository.DeleteEvent(participantId, eventId);
         }
+        public async Task<List<Participant>> GetParticipantsOfEvent(Guid eventId)
+        {
+            return await _participantRepository.GetParticipantsOfEvent(eventId);
+        }
     }
 }

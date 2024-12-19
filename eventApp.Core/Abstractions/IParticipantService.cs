@@ -9,5 +9,6 @@ namespace eventApp.Application.Services
         Task<List<Participant>> GetAllParticipants();
         Task<Participant?> GetParticipantById(Guid id);
         Task<string> AddParticipantEvent(Guid participantId, Guid eventId);
+        Task<List<Participant>> GetParticipantsOfEvent(Guid eventId);
     }
 }

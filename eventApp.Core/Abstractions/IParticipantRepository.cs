@@ -9,5 +9,6 @@ namespace eventApp.Postgres.Repositories
         Task<Guid> DeleteEvent(Guid participantId, Guid eventId);
         Task<List<Participant>> GetAll();
         Task<Participant?> GetById(Guid id);
+        Task<List<Participant>> GetParticipantsOfEvent(Guid eventId);
     }
 }

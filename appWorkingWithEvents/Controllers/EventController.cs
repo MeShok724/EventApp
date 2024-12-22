@@ -35,7 +35,7 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("{name}")]
-        public async Task<ActionResult<Event?>> GetByName(string name)
+        public async Task<ActionResult<EventResponse?>> GetByName(string name)
         {
             var @event = await _eventService.GetEventByName(name);
             if (@event == null)
@@ -47,7 +47,7 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("{date:datetime}")]
-        public async Task<ActionResult<Event?>> GetByDate(DateTime date)
+        public async Task<ActionResult<EventResponse?>> GetByDate(DateTime date)
         {
             var @event = await _eventService.GetEventByDate(date);
             if (@event == null)
@@ -59,7 +59,7 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("location/{location}")]
-        public async Task<ActionResult<Event?>> GetByLocation(string location)
+        public async Task<ActionResult<EventResponse?>> GetByLocation(string location)
         {
             var @event = await _eventService.GetEventByLocation(location);
             if (@event == null)
@@ -71,7 +71,7 @@ namespace eventApp.API.Controllers
             return Ok(eventResponse);
         }
         [HttpGet("category/{category}")]
-        public async Task<ActionResult<List<Event>>> GetByCategory(string category)
+        public async Task<ActionResult<List<EventResponse>>> GetByCategory(string category)
         {
             var @events = await _eventService.GetEventByCategory(category);
             if (@events == null)
